@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A Score to Be Retold</title>
+  <meta name="description" content="A web work that is also the instructions for performing it by hand.">
+  <meta name="theme-color" content="#f4efe6">
+  <style>
+    :root {
+      --paper: #f4efe6;
+      --ink: #1a1612;
+      --faded: #5c564e;
+      --rule: #d4cdc2;
+      --oxide: #8f3d2b;
+      --serif: "Iowan Old Style", Palatino, Georgia, serif;
+      --mono: ui-monospace, "Courier New", monospace;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--paper); color: var(--ink); }
+    body { font-family: var(--serif); text-rendering: optimizeLegibility; }
+    button, summary { cursor: pointer; }
+    button, textarea { font: inherit; color: inherit; }
+    ::selection { background: var(--oxide); color: var(--paper); }
+    :focus-visible { outline: 2px solid var(--oxide); outline-offset: 3px; }
+    .wrap { max-width: 40rem; margin: 0 auto; padding: 0 1.25rem 6rem; }
+    header { border-bottom: 1px solid var(--rule); }
+    .bar { max-width: 40rem; margin: 0 auto; padding: 0.75rem 1.25rem; display: flex; justify-content: space-between; gap: 1rem; font-family: var(--mono); font-size: 0.75rem; color: var(--faded); }
+    .kicker { margin: 3rem 0 0; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--oxide); }
+    h1 { margin: 1rem 0 0; font-size: clamp(2.25rem, 6vw, 3.5rem); font-weight: 500; line-height: 1.1; letter-spacing: -0.02em; }
+    .lede { margin: 1.5rem 0 0; font-size: 1.125rem; line-height: 1.6; max-width: 36rem; }
+    h2 { margin: 0; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--faded); font-weight: 400; }
+    .row { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+    .linkish { background: none; border: 0; padding: 0.6rem 0; min-height: 2.75rem; font-family: var(--mono); font-size: 0.75rem; color: var(--oxide); text-decoration: underline; text-underline-offset: 4px; }
+    ol { list-style: none; margin: 1.5rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 1rem; }
+    li { border-left: 2px solid transparent; padding: 0.25rem 0 0.25rem 1rem; color: var(--faded); }
+    li.active { border-color: var(--oxide); color: var(--ink); }
+    .num { display: block; margin-bottom: 0.25rem; font-family: var(--mono); font-size: 0.75rem; }
+    .verse { margin: 0; font-size: 1.125rem; line-height: 1.35; }
+    .today { margin: 0.5rem 0 0; font-family: var(--mono); font-size: 0.75rem; color: var(--oxide); }
+    textarea { width: 100%; margin-top: 0.75rem; padding: 0.75rem; border: 1px solid var(--rule); background: var(--paper); resize: vertical; line-height: 1.35; }
+    .clock { width: min(100%, 24rem); margin: 3.5rem auto 0; display: block; }
+    .caption, .count { text-align: center; font-family: var(--mono); font-size: 0.75rem; color: var(--faded); }
+    .horizons { margin: 2rem 0 0; display: grid; grid-template-columns: 1fr; border: 1px solid var(--rule); }
+    .horizons div { padding: 1rem; border-bottom: 1px solid var(--rule); }
+    .horizons div:last-child { border-bottom: 0; }
+    .horizons dt { font-family: var(--mono); font-size: 0.75rem; color: var(--faded); }
+    .horizons dd { margin: 0.5rem 0 0; }
+    section.block { margin-top: 3.5rem; }
+    .rule { border-top: 1px solid var(--rule); padding-top: 2rem; }
+    .score { margin: 1.5rem 0 0; font-family: var(--mono); font-size: 0.75rem; line-height: 1.6; white-space: pre-wrap; }
+    .actions { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 0.75rem; }
+    .btn { min-height: 2.75rem; padding: 0.6rem 1rem; font-family: var(--mono); font-size: 0.75rem; }
+    .solid { background: var(--oxide); color: var(--paper); border: 1px solid var(--oxide); }
+    .ghost { background: var(--paper); color: var(--ink); border: 1px solid var(--ink); }
+    details { margin-top: 4rem; }
+    summary { font-family: var(--mono); font-size: 0.75rem; color: var(--faded); min-height: 2.75rem; }
+    .notes p { line-height: 1.6; }
+    .proposal { border: 1px solid var(--rule); padding: 1rem; white-space: pre-wrap; }
+    .colophon { margin-top: 4rem; border-top: 1px solid var(--rule); padding-top: 1.5rem; font-family: var(--mono); font-size: 0.75rem; color: var(--faded); }
+    .setdown { margin-top: 3rem; font-size: 1.25rem; font-style: italic; line-height: 1.35; }
+    .retold { margin: 1rem 0 0; font-size: 1.125rem; font-style: italic; line-height: 1.35; }
+    @media (min-width: 640px) {
+      .horizons { grid-template-columns: 1fr 1fr 1fr; }
+      .horizons div { border-bottom: 0; border-right: 1px solid var(--rule); }
+      .horizons div:last-child { border-right: 0; }
+      .actions { flex-direction: row; }
+    }
+    @media print { .no-print { display: none !important; } body { background: white; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="bar"><span>For one performer</span><span>Permanence</span></div>
+  </header>
+  <main class="wrap">
+    <p class="kicker">A score to be retold</p>
+    <h1>Keep the point. Let the tools go.</h1>
+    <p class="lede">A circle is one day. A rust-colored point is now. The sentences underneath are the memory of the work. The text at the bottom is the work itself, written so it can be performed with a pen after the browser is gone.</p>
+    <div id="live"></div>
+    <section class="block" aria-label="The score">
+      <h2>The score</h2>
+      <pre id="score" class="score"></pre>
+    </section>
+    <div class="actions no-print">
+      <button id="bare" class="btn solid" type="button">Let the tools fall away</button>
+      <button id="carry" class="btn ghost" type="button">Carry the score</button>
+    </div>
+    <details class="no-print rule">
+      <summary>Submission notes for tonight</summary>
+      <div class="notes">
+        <p>Category <strong>Permanence</strong>. Suggested amount $1,200, anywhere from $500 to $1,500. Rewrite the twelve sentences before you send them. The draft is a starting voice, not yours yet.</p>
+        <p>Use this page’s address as your website. Attach the downloaded score if the form allows a file. Apply at <a href="https://microgrants.rhizome.org">microgrants.rhizome.org</a>. The deadline is 20 November 2026. They did not publish a closing hour.</p>
+        <p id="proposal" class="proposal"></p>
+        <button id="copy" class="btn ghost" type="button">Copy the proposal</button>
+        <p id="count" class="count" style="text-align:left"></p>
+      </div>
+    </details>
+    <p class="colophon">The maintainer is whoever is reading.</p>
+  </main>
+  <noscript>
+    <pre>
+A SCORE TO BE RETOLD
+for one performer, a pen, a clock, and a sheet of paper.
+Duration: one day. Repeat for as long as there are clocks.
+
+1. Take paper the color of bone. Use ink that is nearly black, and a second ink the color of rust.
+2. Draw a circle. Mark the top as midnight. Move clockwise through the hours.
+3. Read a clock. Place a rust-colored point where the day currently is.
+4. If you can stay, move the point as the day moves. If you cannot, write the time beside the point and leave.
+5. Write these twelve sentences. Speak only the one for today's count of the year, modulo twelve. Let the others go quiet.
+6. You may add one sentence of your own, smaller than the rest. It will drift.
+7. When there is no screen left, this text is the work. Perform it again.
+
+Keep it toward 20 November 2126, 20 November 2526, and 20 November 3026.
+The maintainer is whoever is reading.
+    </pre>
+  </noscript>
+  <script>
+    const VERSES = [
+      "Keep the rust point. Lose everything that drew it.",
+      "A file no one can open is a grave with the name worn off.",
+      "Copy the circle badly. The error is now part of the piece.",
+      "Servers are people who agreed to stay late.",
+      "What you remember is already a translation.",
+      "Do not laminate it. Lamination is a kind of forgetting.",
+      "Speak the quiet sentences only if someone asks what was left out.",
+      "Five hundred years from now, the word “browser” will need a footnote.",
+      "If the ink feathers, let it. Paper is also a clock.",
+      "The maintainer is not the author.",
+      "A thousand years is a rumor that still has a drawing attached.",
+      "If you are reading this later, move the point, then leave the time in the margin."
+    ];
+    const PROPOSAL = "A Score to Be Retold is a web work and the instructions for performing it by hand. A circle stands for one day. A rust point marks the present hour. Twelve sentences sit underneath; only the one for this day of the year is spoken, and the rest stay quiet, the way a memory drifts. The same piece is written out as a plain-language score: paper, two inks, and a clock. Someone in 2126 or 3026 can redraw it after the browser is gone.\n\nA reader may add one sentence. It lives in the link they share and in a text file they download, not on a server. A control lets the tools fall away until only the score remains. I am asking for $1,200 to finish the verses in my own voice and publish the file so it can be kept.";
+    const KEY = "score-to-be-retold";
+    const VERSE_LIMIT = 180;
+    const RETELLING_LIMIT = 140;
+    const state = { verses: VERSES.map(() => ""), retelling: "", bare: false, editing: false, now: new Date() };
+
+    function dayOfYear(d) {
+      const start = Date.UTC(d.getFullYear(), 0, 0);
+      const now = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate());
+      return Math.floor((now - start) / 86400000);
+    }
+    function verseIndex(d) { return (dayOfYear(d) - 1) % VERSES.length; }
+    function shown(custom, i) { const t = (custom || "").trim(); return t ? t : VERSES[i]; }
+    function speakTime(d) {
+      const h = d.getHours();
+      const m = String(d.getMinutes()).padStart(2, "0");
+      const h12 = h % 12 || 12;
+      const period = h < 5 ? "at night" : h < 12 ? "in the morning" : h < 17 ? "in the afternoon" : h < 21 ? "in the evening" : "at night";
+      return h12 + ":" + m + " " + period;
+    }
+    function polar(angle, radius) {
+      const rad = ((angle - 90) * Math.PI) / 180;
+      const round = (n) => Math.round(n * 1000) / 1000;
+      return { x: round(100 + radius * Math.cos(rad)), y: round(100 + radius * Math.sin(rad)) };
+    }
+    function buildScore() {
+      const today = verseIndex(state.now);
+      const lines = VERSES.map((_, i) => "   " + (i + 1) + ". " + shown(state.verses[i], i) + (today === i ? "  ← speak this one" : "")).join("\n");
+      const margin = state.retelling.trim() ? "\nA retelling, left in the margin:\n“" + state.retelling.trim() + "”\n" : "";
+      return "A SCORE TO BE RETOLD\nfor one performer, a pen, a clock, and a sheet of paper.\nDuration: one day. Repeat for as long as there are clocks.\n\n1. Take paper the color of bone. Use ink that is nearly black, and a second ink the color of rust.\n2. Draw a circle. Mark the top as midnight. Move clockwise through the hours.\n3. Read a clock. Place a rust-colored point where the day currently is.\n4. If you can stay, move the point as the day moves. If you cannot, write the time beside the point and leave.\n5. Write these twelve sentences. Speak only the one for today's count of the year, modulo twelve. Let the others go quiet.\n\n" + lines + "\n\n6. You may add one sentence of your own, smaller than the rest. It will drift.\n7. When there is no screen left, this text is the work. Perform it again.\n" + margin + "\nKeep it toward 20 November 2126, 20 November 2526, and 20 November 3026.\nThe maintainer is whoever is reading.\n";
+    }
+    function readHash() {
+      const raw = location.hash.replace(/^#/, "");
+      if (!raw.startsWith("r=")) return "";
+      try { return decodeURIComponent(raw.slice(2)).slice(0, RETELLING_LIMIT); } catch (e) { return ""; }
+    }
+    function load() {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(KEY) || "null");
+        if (parsed && Array.isArray(parsed.verses)) {
+          parsed.verses.slice(0, 12).forEach((v, i) => { state.verses[i] = String(v).slice(0, VERSE_LIMIT); });
+        }
+        if (parsed && typeof parsed.retelling === "string") state.retelling = parsed.retelling.slice(0, RETELLING_LIMIT);
+      } catch (e) {}
+      const fromHash = readHash();
+      if (fromHash) state.retelling = fromHash;
+    }
+    function save() {
+      localStorage.setItem(KEY, JSON.stringify({ verses: state.verses, retelling: state.retelling }));
+      const url = new URL(location.href);
+      url.hash = state.retelling.trim() ? "r=" + encodeURIComponent(state.retelling.trim()) : "";
+      history.replaceState(null, "", url.pathname + url.search + url.hash);
+    }
+    function node(tag, text, cls) {
+      const el = document.createElement(tag);
+      if (cls) el.className = cls;
+      if (text != null) el.textContent = text;
+      return el;
+    }
+    function drawClock(svg) {
+      const ns = "http://www.w3.org/2000/svg";
+      const circle = document.createElementNS(ns, "circle");
+      circle.setAttribute("cx", "100"); circle.setAttribute("cy", "100"); circle.setAttribute("r", "78");
+      circle.setAttribute("fill", "none"); circle.setAttribute("stroke", "currentColor"); circle.setAttribute("stroke-width", "0.7");
+      svg.appendChild(circle);
+      for (let hour = 0; hour < 24; hour++) {
+        const major = hour % 6 === 0;
+        const outer = polar(hour * 15, 78);
+        const inner = polar(hour * 15, major ? 70 : 74);
+        const line = document.createElementNS(ns, "line");
+        line.setAttribute("x1", inner.x); line.setAttribute("y1", inner.y);
+        line.setAttribute("x2", outer.x); line.setAttribute("y2", outer.y);
+        line.setAttribute("stroke", "currentColor"); line.setAttribute("stroke-width", major ? "0.9" : "0.45");
+        svg.appendChild(line);
+      }
+      const seconds = state.now.getHours() * 3600 + state.now.getMinutes() * 60 + state.now.getSeconds();
+      const p = polar((seconds / 86400) * 360, 78);
+      const ring = document.createElementNS(ns, "circle");
+      ring.setAttribute("cx", p.x); ring.setAttribute("cy", p.y); ring.setAttribute("r", "6.5");
+      ring.setAttribute("fill", "none"); ring.setAttribute("stroke", "#8f3d2b"); ring.setAttribute("stroke-width", "0.45");
+      const dot = document.createElementNS(ns, "circle");
+      dot.setAttribute("cx", p.x); dot.setAttribute("cy", p.y); dot.setAttribute("r", "3.2");
+      dot.setAttribute("fill", "#8f3d2b");
+      svg.appendChild(ring); svg.appendChild(dot);
+    }
+    function render() {
+      const live = document.getElementById("live");
+      live.replaceChildren();
+      if (state.bare) {
+        live.appendChild(node("p", "The drawing has been set down. What follows is enough.", "setdown rule"));
+      } else {
+        const section = node("section", null, "block");
+        section.setAttribute("aria-label", "The day, performed");
+        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.setAttribute("viewBox", "0 0 200 200");
+        svg.setAttribute("class", "clock");
+        svg.setAttribute("role", "img");
+        svg.setAttribute("aria-label", "A circle meaning one day. A point marks the present hour.");
+        drawClock(svg);
+        section.appendChild(svg);
+        section.appendChild(node("p", "The point marks " + speakTime(state.now) + ".", "caption"));
+        const dl = document.createElement("dl");
+        dl.className = "horizons";
+        [["100 years", "20 November 2126"], ["500 years", "20 November 2526"], ["1,000 years", "20 November 3026"]].forEach((pair) => {
+          const div = document.createElement("div");
+          div.appendChild(node("dt", pair[0]));
+          div.appendChild(node("dd", pair[1]));
+          dl.appendChild(div);
+        });
+        section.appendChild(dl);
+        live.appendChild(section);
+
+        const verses = node("section", null, "block");
+        verses.setAttribute("aria-label", "Twelve sentences");
+        const row = node("div", null, "row");
+        row.appendChild(node("h2", "Twelve sentences"));
+        const rewrite = node("button", state.editing ? "Done rewriting" : "Rewrite them", "linkish");
+        rewrite.type = "button";
+        rewrite.addEventListener("click", () => { state.editing = !state.editing; render(); });
+        row.appendChild(rewrite);
+        verses.appendChild(row);
+        const ol = document.createElement("ol");
+        const today = verseIndex(state.now);
+        VERSES.forEach((_, i) => {
+          const li = document.createElement("li");
+          if (i === today) li.className = "active";
+          li.appendChild(node("span", String(i + 1).padStart(2, "0"), "num"));
+          if (state.editing) {
+            const area = document.createElement("textarea");
+            area.maxLength = VERSE_LIMIT;
+            area.rows = 2;
+            area.value = state.verses[i];
+            area.placeholder = VERSES[i];
+            area.setAttribute("aria-label", "Sentence " + (i + 1));
+            area.addEventListener("input", () => {
+              state.verses[i] = area.value.slice(0, VERSE_LIMIT);
+              save();
+              document.getElementById("score").textContent = buildScore();
+            });
+            li.appendChild(area);
+          } else {
+            li.appendChild(node("p", shown(state.verses[i], i), "verse"));
+            if (i === today) li.appendChild(node("p", "Speak this one today.", "today"));
+          }
+          ol.appendChild(li);
+        });
+        verses.appendChild(ol);
+        live.appendChild(verses);
+
+        const margin = node("section", null, "block rule");
+        margin.appendChild(node("h2", "A retelling, which will drift"));
+        if (state.retelling.trim() && !state.editing) margin.appendChild(node("p", "“" + state.retelling.trim() + "”", "retold"));
+        const label = node("label", "Leave one sentence in the margin. It is stored in this browser and in the link, not on a server.");
+        label.htmlFor = "retelling";
+        label.style.display = "block";
+        label.style.marginTop = "1rem";
+        margin.appendChild(label);
+        const area = document.createElement("textarea");
+        area.id = "retelling";
+        area.maxLength = RETELLING_LIMIT;
+        area.rows = 3;
+        area.placeholder = "Write it smaller than the rest.";
+        area.value = state.retelling;
+        area.addEventListener("input", () => {
+          state.retelling = area.value.slice(0, RETELLING_LIMIT);
+          save();
+          document.getElementById("score").textContent = buildScore();
+          document.getElementById("rcount").textContent = state.retelling.length + " / " + RETELLING_LIMIT;
+        });
+        margin.appendChild(area);
+        margin.appendChild(node("p", state.retelling.length + " / " + RETELLING_LIMIT, "count"));
+        margin.lastChild.id = "rcount";
+        margin.lastChild.style.textAlign = "left";
+        live.appendChild(margin);
+      }
+      document.getElementById("score").textContent = buildScore();
+      document.getElementById("bare").textContent = state.bare ? "Perform it again" : "Let the tools fall away";
+    }
+
+    document.getElementById("proposal").textContent = PROPOSAL;
+    document.getElementById("count").textContent = PROPOSAL.length + " / 750 characters";
+    document.getElementById("bare").addEventListener("click", () => { state.bare = !state.bare; render(); });
+    document.getElementById("carry").addEventListener("click", () => {
+      const blob = new Blob([buildScore()], { type: "text/plain;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = "a-score-to-be-retold.txt"; a.click();
+      URL.revokeObjectURL(url);
+    });
+    document.getElementById("copy").addEventListener("click", async () => {
+      try { await navigator.clipboard.writeText(PROPOSAL); document.getElementById("copy").textContent = "Copied"; }
+      catch (e) { document.getElementById("copy").textContent = "Select the proposal and copy it"; }
+    });
+    load();
+    save();
+    render();
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    setInterval(() => { state.now = new Date(); if (!state.editing) render(); else document.getElementById("score").textContent = buildScore(); }, reduce ? 60000 : 1000);
+  </script>
+</body>
+</html>
